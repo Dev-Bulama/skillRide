@@ -74,7 +74,7 @@
 @push('scripts')
 <script>
     // Vehicle data for map integration
-    const vehicles = @json($vehicles->map(fn($v) => ['id' => $v->id, 'reg' => $v->registration_number, 'lat' => $v->current_latitude, 'lng' => $v->current_longitude, 'rider' => $v->assignedRider?->name]));
+    const vehicles = @json($vehicleMapData ?? []);
 
     // Auto-refresh every 30 seconds
     setTimeout(() => window.location.reload(), 30000);

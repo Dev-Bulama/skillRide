@@ -15,7 +15,9 @@ class ManagerController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::where('role', 'manager')->with('managerProfile');
+        $query = User::where('role', 'manager')
+            ->with('managerProfile')
+            ->withCount(['managedVehicles as managed_routes_count']);
 
         if ($request->filled('search')) {
             $search = $request->search;

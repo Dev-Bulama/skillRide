@@ -5,10 +5,13 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Manager;
 use App\Http\Controllers\Rider;
 
-// Public routes
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// Landing page
+Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index'])->name('landing');
+
+// Reports fraud alias
+Route::get('/admin/reports/fraud', function () {
+    return redirect()->route('admin.fraud.index');
+})->name('admin.reports.fraud');
 
 // QR Verification (public)
 Route::get('/verify/{code}', [Rider\QrCodeController::class, 'verify'])->name('verify.qr');
@@ -61,6 +64,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('payment-plans', [Admin\PaymentController::class, 'storePlan'])->name('payments.plans.store');
         Route::put('payment-plans/{plan}', [Admin\PaymentController::class, 'updatePlan'])->name('payments.plans.update');
         Route::delete('payment-plans/{plan}', [Admin\PaymentController::class, 'deletePlan'])->name('payments.plans.delete');
+        Route::post('payment-plans/{plan}/toggle', [Admin\PaymentController::class, 'togglePlan'])->name('payments.plans.toggle');
+
+        // Payout Requests
+        Route::get('payout-requests', [Admin\PaymentController::class, 'payoutRequests'])->name('payouts.index');
+        Route::post('payout-requests/{payout}/approve', [Admin\PaymentController::class, 'approvePayout'])->name('payouts.approve');
+        Route::post('payout-requests/{payout}/reject', [Admin\PaymentController::class, 'rejectPayout'])->name('payouts.reject');
         Route::get('payments-arrears', [Admin\PaymentController::class, 'arrears'])->name('payments.arrears');
         Route::get('payments-revenue', [Admin\PaymentController::class, 'revenue'])->name('payments.revenue');
         Route::get('payments-export', [Admin\PaymentController::class, 'exportPayments'])->name('payments.export');
@@ -127,6 +136,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('maintenance/{record}', [Manager\MaintenanceController::class, 'show'])->name('maintenance.show');
         Route::post('maintenance/{record}/approve', [Manager\MaintenanceController::class, 'approve'])->name('maintenance.approve');
         Route::get('maintenance-schedules', [Manager\MaintenanceController::class, 'schedules'])->name('maintenance.schedules');
+
+        // Vehicle Assignment
+        Route::get('vehicles', [Manager\VehicleController::class, 'index'])->name('vehicles.index');
+        Route::get('vehicles/{vehicle}/assign', [Manager\VehicleController::class, 'showAssign'])->name('vehicles.assign');
+        Route::post('vehicles/{vehicle}/assign', [Manager\VehicleController::class, 'assignRider'])->name('vehicles.assign.store');
+        Route::post('vehicles/{vehicle}/unassign', [Manager\VehicleController::class, 'unassignRider'])->name('vehicles.unassign');
 
         // Payments
         Route::get('payments', [Manager\PaymentController::class, 'index'])->name('payments.index');

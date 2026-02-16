@@ -31,12 +31,16 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $riderGrowth = User::where('role', 'rider')
-            ->selectRaw("strftime('%Y-%m', created_at) as month, COUNT(*) as count")
-            ->groupByRaw("strftime('%Y-%m', created_at)")
+        $riderGrowthData = User::where('role', 'rider')
+            ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count")
+            ->groupByRaw("DATE_FORMAT(created_at, '%Y-%m')")
             ->orderBy('month')
             ->limit(12)
             ->pluck('count', 'month');
+
+        $currentMonthRiders = User::where('role', 'rider')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->count();
+        $lastMonthRiders = User::where('role', 'rider')->whereMonth('created_at', now()->subMonth()->month)->whereYear('created_at', now()->subMonth()->year)->count();
+        $riderGrowth = $lastMonthRiders > 0 ? round((($currentMonthRiders - $lastMonthRiders) / $lastMonthRiders) * 100, 1) : 0;
 
         return view('admin.dashboard.index', [
             'totalRiders' => $totalRiders,
@@ -47,6 +51,7 @@ class DashboardController extends Controller
             'recentPayments' => $recentPayments,
             'recentAlerts' => $recentAlerts,
             'riderGrowth' => $riderGrowth,
+            'riderGrowthData' => $riderGrowthData,
             'revenueData' => $revenueStats['monthly_data'],
         ]);
     }

@@ -100,8 +100,8 @@ class PaymentService
 
         $monthlyData = Payment::where('status', 'completed')
             ->whereYear('paid_at', $now->year)
-            ->selectRaw("strftime('%m', paid_at) as month, SUM(amount) as total")
-            ->groupByRaw("strftime('%m', paid_at)")
+            ->selectRaw("DATE_FORMAT(paid_at, '%m') as month, SUM(amount) as total")
+            ->groupByRaw("DATE_FORMAT(paid_at, '%m')")
             ->pluck('total', 'month')
             ->toArray();
 

@@ -41,7 +41,7 @@
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $manager->email }}</td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $manager->phone ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $manager->routes_count ?? $manager->routes->count() ?? 0 }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $manager->managed_routes_count ?? 0 }}</td>
                         <td class="px-6 py-4">
                             <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full {{ $manager->status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-800' }}">
                                 {{ ucfirst($manager->status ?? 'active') }}

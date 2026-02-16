@@ -32,6 +32,17 @@ class RouteController extends Controller
             ->where('status', 'active')
             ->with('assignedRider:id,name,phone')
             ->get();
-        return view('manager.routes.track', compact('vehicles'));
+
+        $vehicleMapData = $vehicles->map(function ($v) {
+            return [
+                'id' => $v->id,
+                'reg' => $v->registration_number,
+                'lat' => $v->current_latitude,
+                'lng' => $v->current_longitude,
+                'rider' => $v->assignedRider?->name,
+            ];
+        })->values();
+
+        return view('manager.routes.track', compact('vehicles', 'vehicleMapData'));
     }
 }

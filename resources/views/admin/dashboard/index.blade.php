@@ -49,7 +49,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Monthly Revenue</p>
-                    <p class="text-2xl font-bold text-gray-900 mt-1">KES {{ number_format($monthlyRevenue, 2) }}</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-1">&#8358;{{ number_format($monthlyRevenue, 2) }}</p>
                     @if(isset($revenueGrowth))
                         <p class="text-xs mt-1 {{ $revenueGrowth >= 0 ? 'text-emerald-600' : 'text-red-600' }}">
                             <span>{{ $revenueGrowth >= 0 ? '+' : '' }}{{ number_format($revenueGrowth, 1) }}%</span>
@@ -251,7 +251,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                KES {{ number_format($payment->amount, 2) }}
+                                &#8358;{{ number_format($payment->amount, 2) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ ucfirst($payment->payment_method ?? 'mpesa') }}

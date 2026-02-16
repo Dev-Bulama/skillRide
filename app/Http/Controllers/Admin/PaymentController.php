@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\PaymentPlan;
+use App\Models\PayoutRequest;
 use App\Services\AuditService;
 use App\Services\PaymentService;
 use App\Services\ReportService;
@@ -112,6 +113,38 @@ class PaymentController extends Controller
     {
         $stats = $this->paymentService->getRevenueStats();
         return view('admin.payments.revenue', compact('stats'));
+    }
+
+    public function togglePlan(PaymentPlan $plan)
+    {
+        $plan->update([
+            'status' => ($plan->status ?? 'active') === 'active' ? 'inactive' : 'active',
+        ]);
+        return back()->with('success', 'Plan status updated.');
+    }
+
+    public function payoutRequests()
+    {
+        $payouts = PayoutRequest::with('manager')
+            ->orderByDesc('created_at')
+            ->paginate(20);
+        return view('admin.payments.payouts', compact('payouts'));
+    }
+
+    public function approvePayout(PayoutRequest $payout)
+    {
+        $payout->update([
+            'status' => 'approved',
+            'approved_by' => auth()->id(),
+            'approved_at' => now(),
+        ]);
+        return back()->with('success', 'Payout request approved.');
+    }
+
+    public function rejectPayout(PayoutRequest $payout)
+    {
+        $payout->update(['status' => 'rejected']);
+        return back()->with('success', 'Payout request rejected.');
     }
 
     public function exportPayments(Request $request)

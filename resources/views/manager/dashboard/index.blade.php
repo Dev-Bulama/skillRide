@@ -7,7 +7,7 @@
 <div class="space-y-6">
     {{-- Welcome Banner --}}
     <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-        <h2 class="text-2xl font-bold">Welcome back, {{ $manager->user->name ?? auth()->user()->name }}</h2>
+        <h2 class="text-2xl font-bold">Welcome back, {{ $manager->name }}</h2>
         <p class="mt-1 text-blue-100">Here's an overview of your fleet operations today.</p>
     </div>
 
@@ -44,7 +44,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Monthly Collections</p>
-                    <p class="text-3xl font-bold text-gray-800 mt-1">R{{ number_format($totalPaymentsThisMonth ?? 0, 0) }}</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">&#8358;{{ number_format($totalPaymentsThisMonth ?? 0, 0) }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -76,21 +76,21 @@
         </h3>
         <div class="space-y-3">
             @foreach($alerts as $alert)
-            <div class="flex items-start p-3 rounded-lg {{ $alert->type === 'danger' ? 'bg-red-50 border border-red-200' : ($alert->type === 'warning' ? 'bg-yellow-50 border border-yellow-200' : 'bg-blue-50 border border-blue-200') }}">
+            @php $alertType = $alert['type'] ?? 'info'; $alertMessage = $alert['message'] ?? ''; $alertUrl = $alert['action_url'] ?? '#'; @endphp
+            <a href="{{ $alertUrl }}" class="block flex items-start p-3 rounded-lg {{ $alertType === 'danger' ? 'bg-red-50 border border-red-200' : ($alertType === 'warning' ? 'bg-yellow-50 border border-yellow-200' : 'bg-blue-50 border border-blue-200') }}">
                 <div class="flex-shrink-0 mt-0.5">
-                    @if($alert->type === 'danger')
+                    @if($alertType === 'danger')
                         <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    @elseif($alert->type === 'warning')
+                    @elseif($alertType === 'warning')
                         <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     @else
                         <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     @endif
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium {{ $alert->type === 'danger' ? 'text-red-800' : ($alert->type === 'warning' ? 'text-yellow-800' : 'text-blue-800') }}">{{ $alert->title }}</p>
-                    <p class="text-sm {{ $alert->type === 'danger' ? 'text-red-600' : ($alert->type === 'warning' ? 'text-yellow-600' : 'text-blue-600') }}">{{ $alert->message }}</p>
+                    <p class="text-sm font-medium {{ $alertType === 'danger' ? 'text-red-800' : ($alertType === 'warning' ? 'text-yellow-800' : 'text-blue-800') }}">{{ $alertMessage }}</p>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
     </div>
@@ -113,10 +113,10 @@
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm
                             {{ $payment->status === 'paid' ? 'bg-emerald-500' : ($payment->status === 'overdue' ? 'bg-red-500' : 'bg-yellow-500') }}">
-                            {{ substr($payment->rider->user->name ?? 'R', 0, 1) }}
+                            {{ substr($payment->rider->name ?? 'R', 0, 1) }}
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-gray-800">{{ $payment->rider->user->name ?? 'Unknown Rider' }}</p>
+                            <p class="text-sm font-medium text-gray-800">{{ $payment->rider->name ?? 'Unknown Rider' }}</p>
                             <p class="text-xs text-gray-500">
                                 @if($payment->status === 'overdue')
                                     Overdue by {{ $payment->due_date ? now()->diffInDays($payment->due_date) : '?' }} days
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="text-sm font-semibold text-gray-800">R{{ number_format($payment->amount ?? 0, 2) }}</p>
+                        <p class="text-sm font-semibold text-gray-800">&#8358;{{ number_format($payment->amount ?? 0, 2) }}</p>
                         <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full
                             {{ $payment->status === 'paid' ? 'bg-emerald-100 text-emerald-700' : ($payment->status === 'overdue' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
                             {{ ucfirst($payment->status) }}

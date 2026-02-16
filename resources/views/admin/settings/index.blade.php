@@ -41,20 +41,48 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Currency</label>
                     <select name="currency" class="mt-1 block w-full rounded-lg border-gray-300 focus:ring-emerald-500 focus:border-emerald-500">
-                        <option value="ZAR" {{ old('currency', $settings['currency'] ?? '') === 'ZAR' ? 'selected' : '' }}>ZAR (R)</option>
-                        <option value="USD" {{ old('currency', $settings['currency'] ?? '') === 'USD' ? 'selected' : '' }}>USD ($)</option>
-                        <option value="KES" {{ old('currency', $settings['currency'] ?? '') === 'KES' ? 'selected' : '' }}>KES (KSh)</option>
-                        <option value="NGN" {{ old('currency', $settings['currency'] ?? '') === 'NGN' ? 'selected' : '' }}>NGN (N)</option>
+                        <option value="NGN" {{ old('currency', $settings['currency'] ?? 'NGN') === 'NGN' ? 'selected' : '' }}>NGN (&#8358;)</option>
+                        <option value="USD" {{ old('currency', $settings['currency'] ?? 'NGN') === 'USD' ? 'selected' : '' }}>USD ($)</option>
+                        <option value="GBP" {{ old('currency', $settings['currency'] ?? 'NGN') === 'GBP' ? 'selected' : '' }}>GBP (&pound;)</option>
+                        <option value="EUR" {{ old('currency', $settings['currency'] ?? 'NGN') === 'EUR' ? 'selected' : '' }}>EUR (&euro;)</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Timezone</label>
                     <select name="timezone" class="mt-1 block w-full rounded-lg border-gray-300 focus:ring-emerald-500 focus:border-emerald-500">
+                        <option value="Africa/Lagos" {{ old('timezone', $settings['timezone'] ?? 'Africa/Lagos') === 'Africa/Lagos' ? 'selected' : '' }}>Africa/Lagos (WAT)</option>
                         <option value="Africa/Johannesburg" {{ old('timezone', $settings['timezone'] ?? '') === 'Africa/Johannesburg' ? 'selected' : '' }}>Africa/Johannesburg</option>
                         <option value="Africa/Nairobi" {{ old('timezone', $settings['timezone'] ?? '') === 'Africa/Nairobi' ? 'selected' : '' }}>Africa/Nairobi</option>
-                        <option value="Africa/Lagos" {{ old('timezone', $settings['timezone'] ?? '') === 'Africa/Lagos' ? 'selected' : '' }}>Africa/Lagos</option>
                         <option value="UTC" {{ old('timezone', $settings['timezone'] ?? '') === 'UTC' ? 'selected' : '' }}>UTC</option>
                     </select>
+                </div>
+            </div>
+        </div>
+
+        {{-- Paystack Integration --}}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Paystack Integration</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Enter your Paystack API keys to enable online payment collection from riders.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Paystack Public Key</label>
+                    <input type="text" name="paystack_public_key" value="{{ old('paystack_public_key', $settings['paystack_public_key'] ?? '') }}" placeholder="pk_live_..." class="mt-1 block w-full rounded-lg border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 font-mono text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Paystack Secret Key</label>
+                    <input type="password" name="paystack_secret_key" value="{{ old('paystack_secret_key', $settings['paystack_secret_key'] ?? '') }}" placeholder="sk_live_..." class="mt-1 block w-full rounded-lg border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 font-mono text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Paystack Webhook URL</label>
+                    <input type="text" readonly value="{{ url('/api/paystack/webhook') }}" class="mt-1 block w-full rounded-lg border-gray-200 bg-gray-50 text-gray-500 text-sm cursor-not-allowed">
+                    <p class="text-xs text-gray-400 mt-1">Copy this URL to your Paystack dashboard webhook settings.</p>
+                </div>
+                <div class="flex items-center mt-6">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="paystack_live_mode" value="1" {{ old('paystack_live_mode', $settings['paystack_live_mode'] ?? false) ? 'checked' : '' }} class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                        <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Live Mode</span>
+                    </label>
                 </div>
             </div>
         </div>
@@ -64,7 +92,7 @@
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Payment Settings</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Default Daily Rate (R)</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Default Daily Rate (&#8358;)</label>
                     <input type="number" name="default_daily_rate" value="{{ old('default_daily_rate', $settings['default_daily_rate'] ?? '') }}" step="0.01" class="mt-1 block w-full rounded-lg border-gray-300 focus:ring-emerald-500 focus:border-emerald-500">
                 </div>
                 <div>
