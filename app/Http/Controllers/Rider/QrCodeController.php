@@ -20,7 +20,7 @@ class QrCodeController extends Controller
 
         if ($vehicle) {
             $verifyUrl = route('verify.qr', $vehicle->registration_number);
-            $qrCode = \SimpleSoftwareIO\SimpleQrCode\Facades\QrCode::size(250)
+            $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(250)
                 ->format('svg')
                 ->generate($verifyUrl);
         }

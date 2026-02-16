@@ -39,6 +39,10 @@ class User extends Authenticatable
         'next_of_kin_phone',
         'locale',
         'dark_mode',
+        'is_verified',
+        'verified_at',
+        'last_login_at',
+        'last_login_ip',
     ];
 
     /**
