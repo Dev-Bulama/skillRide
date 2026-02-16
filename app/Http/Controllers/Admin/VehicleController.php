@@ -53,7 +53,7 @@ class VehicleController extends Controller
     {
         $validated = $request->validate([
             'registration_number' => 'required|string|unique:vehicles',
-            'type' => 'required|in:keke_napep,car,bus,truck',
+            'type' => 'required|in:tricycle,keke_napep,motorcycle,car,bus,truck',
             'make' => 'required|string|max:100',
             'model' => 'required|string|max:100',
             'year' => 'nullable|integer|min:1990|max:' . (date('Y') + 1),
@@ -92,7 +92,7 @@ class VehicleController extends Controller
     {
         $validated = $request->validate([
             'registration_number' => 'required|string|unique:vehicles,registration_number,' . $vehicle->id,
-            'type' => 'required|in:keke_napep,car,bus,truck',
+            'type' => 'required|in:tricycle,keke_napep,motorcycle,car,bus,truck',
             'make' => 'required|string|max:100',
             'model' => 'required|string|max:100',
             'year' => 'nullable|integer|min:1990|max:' . (date('Y') + 1),

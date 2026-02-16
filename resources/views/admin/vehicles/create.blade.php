@@ -22,11 +22,11 @@
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Vehicle Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="plate_number" class="block text-sm font-medium text-gray-700 mb-1">Plate Number <span class="text-red-500">*</span></label>
-                    <input type="text" name="plate_number" id="plate_number" value="{{ old('plate_number') }}" required
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-emerald-500 focus:border-emerald-500 @error('plate_number') border-red-300 @enderror"
-                        placeholder="e.g., KMFL 123A">
-                    @error('plate_number')
+                    <label for="registration_number" class="block text-sm font-medium text-gray-700 mb-1">Registration Number <span class="text-red-500">*</span></label>
+                    <input type="text" name="registration_number" id="registration_number" value="{{ old('registration_number') }}" required
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-emerald-500 focus:border-emerald-500 @error('registration_number') border-red-300 @enderror"
+                        placeholder="e.g., ABC-123XY">
+                    @error('registration_number')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
@@ -36,10 +36,12 @@
                     <select name="type" id="type" required
                         class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-emerald-500 focus:border-emerald-500 @error('type') border-red-300 @enderror">
                         <option value="">Select type</option>
+                        <option value="tricycle" {{ old('type') === 'tricycle' ? 'selected' : '' }}>Tricycle (Keke)</option>
+                        <option value="keke_napep" {{ old('type') === 'keke_napep' ? 'selected' : '' }}>Keke Napep</option>
                         <option value="motorcycle" {{ old('type') === 'motorcycle' ? 'selected' : '' }}>Motorcycle</option>
-                        <option value="bicycle" {{ old('type') === 'bicycle' ? 'selected' : '' }}>Bicycle</option>
-                        <option value="scooter" {{ old('type') === 'scooter' ? 'selected' : '' }}>Scooter</option>
-                        <option value="electric_bike" {{ old('type') === 'electric_bike' ? 'selected' : '' }}>Electric Bike</option>
+                        <option value="car" {{ old('type') === 'car' ? 'selected' : '' }}>Car</option>
+                        <option value="bus" {{ old('type') === 'bus' ? 'selected' : '' }}>Bus</option>
+                        <option value="truck" {{ old('type') === 'truck' ? 'selected' : '' }}>Truck</option>
                     </select>
                     @error('type')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
@@ -202,7 +204,7 @@
                 </div>
 
                 <div>
-                    <label for="daily_rate" class="block text-sm font-medium text-gray-700 mb-1">Daily Rate (KES)</label>
+                    <label for="daily_rate" class="block text-sm font-medium text-gray-700 mb-1">Daily Rate (&#8358;)</label>
                     <input type="number" name="daily_rate" id="daily_rate" value="{{ old('daily_rate') }}" step="0.01" min="0"
                         class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-emerald-500 focus:border-emerald-500 @error('daily_rate') border-red-300 @enderror"
                         placeholder="0.00">

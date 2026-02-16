@@ -38,7 +38,7 @@
                         {{ ($plan->status ?? 'active') === 'active' ? 'Deactivate' : 'Activate' }}
                     </button>
                 </form>
-                <form method="POST" action="{{ route('admin.payments.plans.destroy', $plan) }}" onsubmit="return confirm('Delete this plan?')">
+                <form method="POST" action="{{ route('admin.payments.plans.delete', $plan) }}" onsubmit="return confirm('Delete this plan?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-3 py-1.5 text-xs font-medium bg-red-100 text-red-700 rounded-lg hover:bg-red-200">Delete</button>

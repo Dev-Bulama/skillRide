@@ -26,11 +26,14 @@ class Payment extends Model
         'due_date',
         'status',
         'payment_method',
+        'reference',
+        'paystack_reference',
         'transaction_reference',
         'notes',
         'paid_at',
         'approved_at',
         'approved_by',
+        'receipt_path',
     ];
 
     /**

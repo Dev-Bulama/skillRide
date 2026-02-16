@@ -20,7 +20,7 @@ class AuditLog extends Model
         'user_id',
         'model_type',
         'model_id',
-        'event',
+        'action',
         'old_values',
         'new_values',
         'ip_address',

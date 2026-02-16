@@ -62,6 +62,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard', absolute: false))
+            ->with('success', 'Registration successful! Your account is under review and will be approved within 24 hours. You will receive a notification once your account is activated.');
     }
 }

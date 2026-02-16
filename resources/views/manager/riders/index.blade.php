@@ -22,20 +22,20 @@
     @if(isset($riders) && $riders->count() > 0)
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="riderGrid">
         @foreach($riders as $rider)
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow rider-card" data-name="{{ strtolower($rider->user->name ?? '') }}">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow rider-card" data-name="{{ strtolower($rider->name ?? '') }}">
             <div class="p-5">
                 <div class="flex items-start justify-between">
                     <div class="flex items-center space-x-3">
-                        @if($rider->profile_photo)
-                            <img src="{{ Storage::url($rider->profile_photo) }}" alt="{{ $rider->user->name ?? 'Rider' }}" class="w-12 h-12 rounded-full object-cover">
+                        @if($rider->avatar)
+                            <img src="{{ Storage::url($rider->avatar) }}" alt="{{ $rider->name }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
-                                {{ substr($rider->user->name ?? 'R', 0, 1) }}
+                                {{ substr($rider->name ?? 'R', 0, 1) }}
                             </div>
                         @endif
                         <div>
-                            <h4 class="text-sm font-semibold text-gray-800">{{ $rider->user->name ?? 'Unknown' }}</h4>
-                            <p class="text-xs text-gray-500">{{ $rider->user->phone ?? $rider->user->email ?? '' }}</p>
+                            <h4 class="text-sm font-semibold text-gray-800">{{ $rider->name }}</h4>
+                            <p class="text-xs text-gray-500">{{ $rider->phone ?? $rider->email ?? '' }}</p>
                         </div>
                     </div>
                     {{-- Payment Status Badge --}}
@@ -54,12 +54,12 @@
                 <div class="mt-4 p-3 bg-gray-50 rounded-lg">
                     <div class="flex items-center justify-between text-sm">
                         <span class="text-gray-500">Vehicle</span>
-                        <span class="font-medium text-gray-800">{{ $rider->vehicle->registration_number ?? $rider->vehicle->plate_number ?? 'Not assigned' }}</span>
+                        <span class="font-medium text-gray-800">{{ $rider->assignedVehicle->registration_number ?? 'Not assigned' }}</span>
                     </div>
-                    @if($rider->route)
+                    @if($rider->riderProfile && $rider->riderProfile->assignedRoute)
                     <div class="flex items-center justify-between text-sm mt-1">
                         <span class="text-gray-500">Route</span>
-                        <span class="font-medium text-gray-800">{{ $rider->route->name ?? 'N/A' }}</span>
+                        <span class="font-medium text-gray-800">{{ $rider->riderProfile->assignedRoute->name ?? 'N/A' }}</span>
                     </div>
                     @endif
                 </div>

@@ -2,6 +2,21 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="space-y-4 pb-20">
+    {{-- Account Pending Notice --}}
+    @if(auth()->user()->status === 'pending')
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <div class="flex items-start">
+            <svg class="w-5 h-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div>
+                <h3 class="text-sm font-semibold text-amber-800">Account Under Review</h3>
+                <p class="text-sm text-amber-700 mt-1">Welcome to SkillRide! Your account is currently being reviewed by our team. Approval typically takes up to 24 hours. You will be notified once your account is fully activated.</p>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Welcome --}}
     <div class="flex items-center justify-between">
         <div>

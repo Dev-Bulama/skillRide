@@ -38,7 +38,7 @@
                     </button>
                 </form>
             @endif
-            <form method="POST" action="{{ route('admin.impersonate', $rider) }}" class="inline">
+            <form method="POST" action="{{ route('admin.impersonate.start', $rider) }}" class="inline">
                 @csrf
                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
@@ -140,15 +140,15 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg text-center">
                         <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Total Paid</p>
-                        <p class="text-xl font-bold text-emerald-700 dark:text-emerald-300 mt-1">R{{ number_format($paymentSummary['total_paid'] ?? 0, 2) }}</p>
+                        <p class="text-xl font-bold text-emerald-700 dark:text-emerald-300 mt-1">&#8358;{{ number_format($paymentSummary['total_paid'] ?? 0, 2) }}</p>
                     </div>
                     <div class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg text-center">
                         <p class="text-xs text-red-600 dark:text-red-400 font-medium">Arrears</p>
-                        <p class="text-xl font-bold text-red-700 dark:text-red-300 mt-1">R{{ number_format($paymentSummary['arrears'] ?? 0, 2) }}</p>
+                        <p class="text-xl font-bold text-red-700 dark:text-red-300 mt-1">&#8358;{{ number_format($paymentSummary['arrears'] ?? 0, 2) }}</p>
                     </div>
                     <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-center">
                         <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">This Month</p>
-                        <p class="text-xl font-bold text-blue-700 dark:text-blue-300 mt-1">R{{ number_format($paymentSummary['this_month'] ?? 0, 2) }}</p>
+                        <p class="text-xl font-bold text-blue-700 dark:text-blue-300 mt-1">&#8358;{{ number_format($paymentSummary['this_month'] ?? 0, 2) }}</p>
                     </div>
                     <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center">
                         <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">Next Due</p>
@@ -177,7 +177,7 @@
                                 @foreach($paymentSummary['recent_payments'] as $payment)
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $payment->created_at->format('M d, Y') }}</td>
-                                    <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">R{{ number_format($payment->amount, 2) }}</td>
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">&#8358;{{ number_format($payment->amount, 2) }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ ucfirst($payment->payment_method ?? 'N/A') }}</td>
                                     <td class="px-6 py-4">
                                         <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full {{ $payment->status === 'paid' ? 'bg-emerald-100 text-emerald-800' : ($payment->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">

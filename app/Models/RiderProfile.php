@@ -21,7 +21,7 @@ class RiderProfile extends Model
         'license_expiry',
         'license_type',
         'license_image',
-        'vehicle_id',
+        'assigned_vehicle_id',
         'assigned_route_id',
         'emergency_contact_name',
         'emergency_contact_phone',
@@ -33,6 +33,12 @@ class RiderProfile extends Model
         'terms_accepted_at',
         'onboarding_completed_at',
         'onboarding_step',
+        'id_document_path',
+        'drivers_license_path',
+        'passport_photo_path',
+        'facial_verification_path',
+        'assistant_name',
+        'assistant_phone',
     ];
 
     /**
@@ -66,7 +72,7 @@ class RiderProfile extends Model
      */
     public function assignedVehicle(): BelongsTo
     {
-        return $this->belongsTo(Vehicle::class, 'vehicle_id');
+        return $this->belongsTo(Vehicle::class, 'assigned_vehicle_id');
     }
 
     /**

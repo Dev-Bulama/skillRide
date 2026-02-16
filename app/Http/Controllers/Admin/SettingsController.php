@@ -11,14 +11,17 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $settings = SiteSetting::all()->groupBy('group');
+        $settings = SiteSetting::pluck('value', 'key')->toArray();
         return view('admin.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
         foreach ($request->except('_token', '_method') as $key => $value) {
-            SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+            SiteSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value ?? '', 'group' => 'general']
+            );
         }
         return back()->with('success', 'Settings updated.');
     }

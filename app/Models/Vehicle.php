@@ -117,7 +117,7 @@ class Vehicle extends Model
         return $this->hasOneThrough(
             Route::class,
             RiderProfile::class,
-            'vehicle_id',        // Foreign key on rider_profiles table
+            'assigned_vehicle_id', // Foreign key on rider_profiles table
             'id',                // Foreign key on routes table
             'id',                // Local key on vehicles table
             'assigned_route_id'  // Local key on rider_profiles table

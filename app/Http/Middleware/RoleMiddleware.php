@@ -21,8 +21,13 @@ class RoleMiddleware
         }
 
         if ($user->status !== 'active' && $user->role !== 'admin') {
+            if ($user->status === 'pending') {
+                auth()->logout();
+                return redirect()->route('login')->with('info', 'Your account is under review. Approval typically takes up to 24 hours. You will be notified once your account is activated.');
+            }
+
             auth()->logout();
-            return redirect()->route('login')->with('error', 'Your account is not active. Please contact support.');
+            return redirect()->route('login')->with('error', 'Your account has been suspended. Please contact support for assistance.');
         }
 
         return $next($request);

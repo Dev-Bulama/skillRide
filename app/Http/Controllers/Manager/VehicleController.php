@@ -59,7 +59,7 @@ class VehicleController extends Controller
 
         if ($rider && $rider->riderProfile) {
             $rider->riderProfile->update([
-                'vehicle_id' => $vehicle->id,
+                'assigned_vehicle_id' => $vehicle->id,
             ]);
         }
 
@@ -81,7 +81,7 @@ class VehicleController extends Controller
 
         if ($rider && $rider->riderProfile) {
             $rider->riderProfile->update([
-                'vehicle_id' => null,
+                'assigned_vehicle_id' => null,
             ]);
         }
 

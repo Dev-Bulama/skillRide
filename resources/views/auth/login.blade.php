@@ -9,6 +9,21 @@
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    @if(session('success'))
+    <div class="mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg text-sm">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('info'))
+    <div class="mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg text-sm">
+        <div class="flex items-start">
+            <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ session('info') }}
+        </div>
+    </div>
+    @endif
+
     @if(session('error'))
     <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
         {{ session('error') }}

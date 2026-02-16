@@ -22,6 +22,37 @@
     @if($rider->riderProfile)
     <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
         <h3 class="font-semibold text-gray-800 dark:text-white mb-3">Documents</h3>
+
+        {{-- Uploaded Documents --}}
+        @php
+            $documents = [
+                'id_document_path' => 'ID Document',
+                'drivers_license_path' => "Driver's License",
+                'passport_photo_path' => 'Passport Photo',
+                'facial_verification_path' => 'Facial Verification',
+            ];
+        @endphp
+        <div class="space-y-2 mb-4">
+            @foreach($documents as $field => $label)
+                <div class="flex items-center justify-between p-2 rounded-lg {{ $rider->riderProfile->$field ? 'bg-emerald-50' : 'bg-gray-50' }}">
+                    <div class="flex items-center">
+                        @if($rider->riderProfile->$field)
+                            <svg class="w-4 h-4 text-emerald-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        @else
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                        @endif
+                        <span class="text-sm {{ $rider->riderProfile->$field ? 'text-emerald-700 font-medium' : 'text-gray-500' }}">{{ $label }}</span>
+                    </div>
+                    @if($rider->riderProfile->$field)
+                        <a href="{{ Storage::url($rider->riderProfile->$field) }}" target="_blank" class="text-xs text-blue-600 hover:underline">View</a>
+                    @else
+                        <span class="text-xs text-gray-400">Not uploaded</span>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+
+        {{-- Upload Form --}}
         <form method="POST" action="{{ route('rider.profile.document') }}" enctype="multipart/form-data" class="space-y-3">
             @csrf
             <select name="document_type" required class="block w-full rounded-lg border-gray-300 text-sm focus:ring-emerald-500 focus:border-emerald-500">
